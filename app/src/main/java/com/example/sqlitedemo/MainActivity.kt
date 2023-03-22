@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,12 +35,19 @@ class MainActivity : AppCompatActivity() {
         btnAdd.setOnClickListener { addStudent() }
         btnView.setOnClickListener { getStudents() }
         btnUpdate.setOnClickListener { updateStudent() }
+        //Delete record
+
+
         adapter?.setOnclickItem {
             Toast.makeText(this, it.name,Toast.LENGTH_SHORT).show()
             // Update record
             edName.setText(it.name)
             edEmail.setText((it.email))
             std = it
+        }
+
+        adapter?.setOnclickDeleteItem {
+            deleteStudent(it.id)
         }
 
     }
@@ -93,6 +101,25 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun deleteStudent(id:Int){
+        //if(id== null) return
+
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Are you sure you want to delete this item?")
+        builder.setCancelable(true)
+        builder.setPositiveButton( "Yes"){ dialog, _ ->
+            sqLiteHelper.deleteStudentById(id)
+            getStudents()
+            dialog.dismiss()
+        }
+        builder.setNegativeButton( "No"){ dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val alert = builder.create()
+        alert.show()
     }
 
     private fun clearEditText() {
