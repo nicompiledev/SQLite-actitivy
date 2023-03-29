@@ -17,11 +17,35 @@
         android:textSize="20sp" />
 
     <EditText
+        android:id="@+id/edNit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Ingrese el nit:"
+        />
+
+    <EditText
         android:id="@+id/edName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="Enter name:"
+        android:hint="Ingrese el nombre:"
+        />
+
+    <EditText
+        android:id="@+id/edDireccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Ingrese la direccion:"
+        />
+
+    <EditText
+        android:id="@+id/edTelefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Ingrese el telefono: "
         />
 
     <EditText
@@ -31,7 +55,17 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:hint="Enter email:"
+        android:hint="Ingrese el email:"
+        />
+
+    <EditText
+        android:id="@+id/edPagina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Ingrese la pagina: "
         />
 
     <LinearLayout

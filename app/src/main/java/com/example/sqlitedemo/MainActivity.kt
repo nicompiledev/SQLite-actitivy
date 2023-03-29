@@ -2,7 +2,6 @@ package com.example.sqlitedemo
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -13,89 +12,108 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var edName: EditText
+    // Declaración de variables miembro de la clase
+
+    private lateinit var edNit: EditText
+    private lateinit var edNombre: EditText
+    private lateinit var edDireccion: EditText
+    private lateinit var edTelefono: EditText
     private lateinit var edEmail: EditText
+    private lateinit var edPagina: EditText
     private lateinit var btnAdd: Button
     private lateinit var btnView: Button
     private lateinit var btnUpdate: Button
 
     private lateinit var sqLiteHelper: SQLiteHelper
     private lateinit var recyclerView: RecyclerView
-    private var adapter: StudentAdapter? = null
-    private var std: StudentModel? = null
+    private var adapter: EmpresaAdapter? = null
+    private var std: EmpresaModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Inicialización de vistas y variables
         initView()
         initRecyclerView()
         sqLiteHelper = SQLiteHelper(this)
 
-        btnAdd.setOnClickListener { addStudent() }
-        btnView.setOnClickListener { getStudents() }
-        btnUpdate.setOnClickListener { updateStudent() }
-        //Delete record
+        btnAdd.setOnClickListener { addEmpresa() }
+        btnView.setOnClickListener { getEmpresas() }
+        btnUpdate.setOnClickListener { updateEmpresa() }
 
 
+        // Configuración de botones
         adapter?.setOnclickItem {
-            Toast.makeText(this, it.name,Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, it.nombre,Toast.LENGTH_SHORT).show()
             // Update record
-            edName.setText(it.name)
+            edNit.setText(it.nit)
+            edNombre.setText(it.nombre)
+            edDireccion.setText(it.direccion)
+            edTelefono.setText(it.telefono)
             edEmail.setText((it.email))
+            edPagina.setText(it.pagina)
             std = it
         }
 
         adapter?.setOnclickDeleteItem {
-            deleteStudent(it.id)
+            deleteEmpresa(it.nit)
         }
 
     }
 
-    private fun getStudents() {
-        val stdList = sqLiteHelper.getAllStudent()
+    private fun getEmpresas() {
+        val stdList = sqLiteHelper.getAllEmpresa()
         Log.e("pppp", "${stdList.size}")
 
         //Display data in RecyclerView
         adapter?.addItems(stdList)
     }
 
-    private fun addStudent() {
-        val name = edName.text.toString()
+    private fun addEmpresa() {
+        val nit = edNit.text.toString()
+        val nombre = edNombre.text.toString()
+        val direccion = edDireccion.text.toString()
+        val telefono = edTelefono.text.toString()
         val email = edEmail.text.toString()
+        val pagina = edPagina.text.toString()
 
-        if (name.isEmpty() || email.isEmpty()) {
+        if (nit.isEmpty() || nombre.isEmpty() || direccion.isEmpty()|| telefono.isEmpty() || email.isEmpty() || pagina.isEmpty()) {
             Toast.makeText(this, "Please enter required field...", Toast.LENGTH_SHORT).show()
         } else {
-            val std = StudentModel(name = name, email = email)
-            val status = sqLiteHelper.insertStudent(std)
+            val std = EmpresaModel(nit = nit , nombre = nombre, direccion = direccion , telefono = telefono, email = email, pagina = pagina )
+            val status = sqLiteHelper.insertEmpresa(std)
             // Check insert success or not success
             if (status > -1) {
-                Toast.makeText(this, "Student Added...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Empresa Added...", Toast.LENGTH_SHORT).show()
                 clearEditText()
-                getStudents()
+                getEmpresas()
             } else {
                 Toast.makeText(this, "Record not saved", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun updateStudent(){
-        val name = edName.text.toString()
+    private fun updateEmpresa(){
+        val nit = edNit.text.toString()
+        val nombre = edNombre.text.toString()
+        val direccion = edDireccion.text.toString()
+        val telefono = edTelefono.text.toString()
         val email = edEmail.text.toString()
+        val pagina = edPagina.text.toString()
 
         //Check record not change
-        if (name == std?.name && email == std?.email){
+        if (nombre == std?.nombre && email == std?.email){
             Toast.makeText( this, "Record not changed...", Toast.LENGTH_SHORT).show()
             return
         }
         if (std == null) return
 
-        val std = StudentModel(id = std!!.id, name = name, email = email )
-        val status = sqLiteHelper.updateStudent(std)
+        val std = EmpresaModel(nit = std!!.nit, nombre = nombre, direccion = direccion, telefono = telefono, email = email, pagina = pagina )
+        val status = sqLiteHelper.updateEmpresa(std)
         if(status > -1){
             clearEditText()
-            getStudents()
+            getEmpresas()
         }else{
             Toast.makeText(this, "Update failed", Toast.LENGTH_SHORT).show()
         }
@@ -103,15 +121,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun deleteStudent(id:Int){
+    private fun deleteEmpresa(nit: String){
         //if(id== null) return
 
         val builder = AlertDialog.Builder(this)
         builder.setMessage("Are you sure you want to delete this item?")
         builder.setCancelable(true)
         builder.setPositiveButton( "Yes"){ dialog, _ ->
-            sqLiteHelper.deleteStudentById(id)
-            getStudents()
+            sqLiteHelper.deleteEmpresaById(nit)
+            getEmpresas()
             dialog.dismiss()
         }
         builder.setNegativeButton( "No"){ dialog, _ ->
@@ -123,20 +141,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun clearEditText() {
-        edName.setText("")
+        edNombre.setText("")
         edEmail.setText("")
-        edName.requestFocus()
+        edNombre.requestFocus()
     }
 
     private fun initRecyclerView(){
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter =  StudentAdapter()
+        adapter =  EmpresaAdapter()
         recyclerView.adapter = adapter
 
     }
 
     private fun initView() {
-        edName = findViewById(R.id.edName)
+        edNombre = findViewById(R.id.edName)
         edEmail = findViewById(R.id.edEmail)
         btnAdd = findViewById(R.id.btnAdd)
         btnView = findViewById(R.id.btnView)

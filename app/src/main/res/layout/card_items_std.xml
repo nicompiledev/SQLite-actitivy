@@ -14,22 +14,39 @@
     android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvId"
+            android:id="@+id/tvNit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Id"/>
+            tools:text="Nit"/>
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Name"/>
+            tools:text="Nombre"/>
+
+        <TextView
+            android:id="@+id/tvDireccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Direccion"/>
+        <TextView
+            android:id="@+id/tvTelefono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Telefono"/>
 
         <TextView
             android:id="@+id/tvEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Email"/>
+
+        <TextView
+            android:id="@+id/tvPagina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Pagina"/>
 
     </LinearLayout>
 
